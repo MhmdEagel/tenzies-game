@@ -1,20 +1,36 @@
 import React, {useState, useEffect} from "react";
-import Die from "./components/Die"
+import Die from "./components/Die";
+import { nanoid } from "nanoid";
 function App () {
 
     const [dice, setDice] = useState(generateNumbers());
     function generateNumbers() {
-        const random = [];
+        const number = [];
         for(let i = 0; i < 10; i++) {
-            random.push(Math.ceil(Math.random() * 6))
+            number.push({
+                value : Math.ceil(Math.random() * 6),
+                id : nanoid(),
+                isHeld : false,
+            })
         }
-        return random
+        return number
     }
 
-    const allDice = dice.map(item => {
+    function roll () {
+        setDice(die => die.map(item => item.isHeld ? item : {...item, value : Math.ceil(Math.random() * 6)}))
+    }
+    function active (id) {
+        setDice(die => die.map(item => item.id === id ? {...item, isHeld: !item.isHeld} : item))
+    }
+
+
+    const allDice = dice.map(die => {
         return (
         <Die 
-            value = {item}
+            value = {die.value}
+            active = {() => active(die.id)}
+            key = {die.id}
+            isHeld = {die.isHeld}
         />
         )
     })
@@ -27,7 +43,7 @@ function App () {
             <div className="die--container">
                 {allDice}
             </div>
-            <button>Roll</button>
+            <button className="roll-btn" onClick={roll}>Roll</button>
         </main>
     )
 }
