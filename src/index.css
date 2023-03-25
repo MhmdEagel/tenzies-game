@@ -1,0 +1,47 @@
+body {
+    background-image: url(./assets/denim.webp);
+    margin: 0;
+    padding: 0;
+    font-family: 'Libre Baskerville', serif;
+}
+
+main {
+    margin: 50px auto;
+    max-width: 800px;
+    color: #000;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.die--img {
+    display: block;
+    max-width: 100px;
+    cursor: pointer;
+}
+
+.die--container {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    gap: 10px 30px;
+}
+
+.main-title {
+    letter-spacing: 5px;
+    margin-bottom: 0;
+    background: #0900A3;
+    background: linear-gradient(to right, #0900A3 0%, #00a8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+.main-desc {
+    color: #07007a;
+    max-width: 500px;
+    text-align: center;
+    margin-bottom: 1.5em;
+}
