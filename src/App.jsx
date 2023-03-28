@@ -4,6 +4,19 @@ import { nanoid } from "nanoid";
 function App () {
 
     const [dice, setDice] = useState(generateNumbers());
+    const [victory, setVictory] = useState(false);
+    const [numberMode, setNumberMode] = useState(false);
+
+
+    useEffect(() => {
+        const allSame = dice.every(item => dice[0].value === item.value)
+        const allHeld = dice.every(item => item.isHeld)
+        if (allSame && allHeld) {
+            setVictory(true)
+        }
+    }, [dice])
+
+
     function generateNumbers() {
         const number = [];
         for(let i = 0; i < 10; i++) {
@@ -16,8 +29,22 @@ function App () {
         return number
     }
 
+    function modeFlipper () {
+        setNumberMode(prevState => !prevState)
+    }
+
+
+
     function roll () {
-        setDice(die => die.map(item => item.isHeld ? item : {...item, value : Math.ceil(Math.random() * 6)}))
+        if(victory) {
+            setDice(generateNumbers())
+            setVictory(false)
+        }
+
+        else {
+            setDice(die => die.map(item => item.isHeld ? item : {...item, value : Math.ceil(Math.random() * 6)}))
+        }
+        
     }
     function active (id) {
         setDice(die => die.map(item => item.id === id ? {...item, isHeld: !item.isHeld} : item))
@@ -31,6 +58,7 @@ function App () {
             active = {() => active(die.id)}
             key = {die.id}
             isHeld = {die.isHeld}
+            numberMode = {numberMode}
         />
         )
     })
@@ -38,12 +66,13 @@ function App () {
     
     return (
         <main>
+            <button className="num-btn" onClick={modeFlipper}>{numberMode ? "Dice" : "Number"}</button>
             <h1 className="main-title">Tenzies</h1>
             <p className="main-desc">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
             <div className="die--container">
                 {allDice}
             </div>
-            <button className="roll-btn" onClick={roll}>Roll</button>
+            <button className="roll-btn" onClick={roll}>{victory ? "New Game" : "Roll"}</button>
         </main>
     )
 }

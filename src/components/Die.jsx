@@ -7,10 +7,18 @@ function Die (props) {
         }
     }
 
-    return (
-        <img src={`./src/assets/${props.value}.png`} className="die--img" onClick={props.active} style={styles()}  />
-
-    )
+    if(props.numberMode) {
+        return (
+            <div className="die--number" onClick={props.active} style={styles()}>
+                <h1>{props.value}</h1>
+            </div>
+        )
+    } else {
+        return (
+            <img src={`./src/assets/${props.value}.png`} className="die--img" onClick={props.active} style={styles()}  />
+        )
+    }
+    
 
 }
 
