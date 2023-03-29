@@ -107,6 +107,9 @@ button:active {
 }
 
 .lang {
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: .5em;
     font-size: 1.15rem;
     color: #fff;
@@ -126,4 +129,22 @@ button:active {
 .id-lang {
     padding-left: 5px;
     color: #ffffff83;
+}
+
+.watch-container {
+    margin-top: .5em;
+    margin-right: .5em;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+}
+
+.watch-title {
+    line-height: 0;
+}
+
+.watch-time {
+    font-size: 1.5rem;
 }

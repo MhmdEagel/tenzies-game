@@ -6,6 +6,7 @@ function Dice (props) {
     const [dice, setDice] = useState(generateNumbers());
     const [victory, setVictory] = useState(false);
     const [numberMode, setNumberMode] = useState(false);
+    const [isRunning, setIsRunning] = useState(false)
 
 
     useEffect(() => {
@@ -14,8 +15,17 @@ function Dice (props) {
         if (allSame && allHeld) {
             setVictory(true)
             alert(props.language === "id" ? "Selamat! Anda Menang!" : "Congratulations! You Win!")
+            setIsRunning(false)
         }
     }, [dice])
+
+    useEffect(() => {
+        let intervalId;
+        if (isRunning) {
+            intervalId = setInterval(() => props.setTime(props.time + 1), 10);
+        }
+        return () => clearInterval(intervalId);
+    }, [isRunning, props.time])
 
 
     function generateNumbers() {
@@ -40,15 +50,18 @@ function Dice (props) {
         if(victory) {
             setDice(generateNumbers())
             setVictory(false)
+            props.setTime(0)
         }
 
         else {
             setDice(die => die.map(item => item.isHeld ? item : {...item, value : Math.ceil(Math.random() * 6)}))
+            setIsRunning(true)
         }
         
     }
     function active (id) {
         setDice(die => die.map(item => item.id === id ? {...item, isHeld: !item.isHeld} : item))
+        setIsRunning(true)
     }
 
 
@@ -67,7 +80,6 @@ function Dice (props) {
     return (
         <main>
             <button className="num-btn" onClick={modeFlipper}>
-                {/* {numberMode ? "Dice" : "Number"} */}
                 {
                 props.language === "id" ? 
                     numberMode ? "Dadu" : "Angka" 
